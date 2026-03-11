@@ -1,305 +1,1127 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html class="scroll-smooth" lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Website Downloader</title>
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 0;
-            padding: 20px;
-        }
-        .container {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 2.5rem;
-            border-radius: 16px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            width: 100%;
-            max-width: 520px;
-        }
-        h1 {
-            margin: 0 0 0.5rem 0;
-            font-size: 1.75rem;
-            font-weight: 700;
-            color: #1a1a2e;
-        }
-        .subtitle {
-            color: #666;
-            font-size: 0.9rem;
-            margin-bottom: 1.5rem;
-        }
-        .input-group {
-            margin-bottom: 1rem;
-        }
-        input[type="url"] {
-            width: 100%;
-            padding: 14px 16px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 1rem;
-            outline: none;
-            transition: border-color 0.2s, box-shadow 0.2s;
-        }
-        input[type="url"]:focus {
-            border-color: #4a6cf7;
-            box-shadow: 0 0 0 3px rgba(74, 108, 247, 0.1);
-        }
-        input[type="url"]:disabled {
-            background: #f5f5f5;
-            color: #999;
-        }
-        button {
-            background: linear-gradient(135deg, #4a6cf7 0%, #6366f1 100%);
-            color: white;
-            border: none;
-            padding: 14px 24px;
-            font-size: 1rem;
-            border-radius: 10px;
-            cursor: pointer;
-            width: 100%;
-            font-weight: 600;
-            transition: transform 0.2s, box-shadow 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-        button:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(74, 108, 247, 0.4);
-        }
-        button:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-        .spinner {
-            width: 18px;
-            height: 18px;
-            border: 2px solid rgba(255,255,255,0.3);
-            border-radius: 50%;
-            border-top-color: white;
-            animation: spin 0.8s linear infinite;
-        }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        .log-container {
-            margin-top: 1.5rem;
-            background: #1a1a2e;
-            border-radius: 10px;
-            padding: 1rem;
-            max-height: 200px;
-            overflow-y: auto;
-            display: none;
-        }
-        .log-container.active {
-            display: block;
-        }
-        .log-entry {
-            color: #a0a0a0;
-            font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
-            font-size: 0.8rem;
-            padding: 4px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            animation: fadeIn 0.3s ease;
-        }
-        .log-entry:last-child {
-            border-bottom: none;
-            color: #4ade80;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .success-message {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            color: white;
-            padding: 1rem;
-            border-radius: 10px;
-            margin-top: 1rem;
-            text-align: center;
-            display: none;
-            animation: slideUp 0.3s ease;
-        }
-        .success-message.active {
-            display: block;
-        }
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .success-message a {
-            color: white;
-            font-weight: 600;
-            text-decoration: underline;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WebDrop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/umd/lucide.min.js"></script>
+<style>
+* { box-sizing: border-box; }
+
+:root {
+  --bg: #020202;
+  --bg-2: #050505;
+  --surface: rgba(255,255,255,0.02);
+  --border: rgba(255,255,255,0.04);
+  --accent: #C8C8C8;
+  --accent-glow: rgba(200,200,200,0.12);
+  --accent-2: #888888;
+  --text: #ffffff;
+  --text-muted: rgba(255,255,255,0.5);
+  --text-dim: rgba(255,255,255,0.25);
+  --font: 'Plus Jakarta Sans', sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+  --ease-cinematic: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-smooth: cubic-bezier(0.44, 0, 0.56, 1);
+}
+
+body {
+  font-family: var(--font);
+  background-color: var(--bg);
+  color: var(--text);
+  margin: 0;
+  overflow-x: hidden;
+  min-height: 100vh;
+  selection-color: rgba(99,102,241,0.3);
+}
+
+::selection { background: rgba(200,200,200,0.15); color: #fff; }
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #000; }
+::-webkit-scrollbar-thumb { background: #222; border-radius: 2px; }
+
+/* ── Spotlight Card ── */
+.spotlight-card {
+  position: relative;
+  border-radius: 4px;
+  background-color: var(--surface);
+  overflow: hidden;
+  --mouse-x: 0px;
+  --mouse-y: 0px;
+}
+.spotlight-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(200,200,200,0.2), transparent 40%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+  z-index: 2;
+}
+.spotlight-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(225deg, rgba(200,200,200,0.06), rgba(255,255,255,0.01));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 1;
+}
+.spotlight-card:hover::before { opacity: 1; }
+
+/* ── Animations ── */
+@keyframes animationIn {
+  0%   { opacity: 0; transform: translateY(20px); filter: blur(4px); }
+  100% { opacity: 1; transform: translateY(0);    filter: blur(0px); }
+}
+.animate-on-scroll { animation-play-state: paused !important; }
+.animate-on-scroll.animate { animation-play-state: running !important; }
+
+@keyframes scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-scroll { animation: scroll 40s linear infinite; }
+
+@keyframes beam-drop {
+  0%   { transform: translateY(0); opacity: 0; }
+  15%  { opacity: 1; }
+  85%  { opacity: 1; }
+  100% { transform: translateY(calc(-100vh - 200px)); opacity: 0; }
+}
+.beam {
+  position: absolute;
+  bottom: 0;
+  top: auto;
+  width: 1px;
+  height: 200px;
+  background: linear-gradient(to top, transparent, rgba(220,220,220,0.55), transparent);
+  animation: beam-drop 8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  box-shadow: 0 0 6px rgba(255,255,255,0.15);
+}
+.beam-delay-1 { animation-delay: 2.3s; }
+.beam-delay-2 { animation-delay: 4.7s; }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+@keyframes shimmer {
+  0%   { transform: translateX(-100%) skewX(-15deg); }
+  100% { transform: translateX(200%) skewX(-15deg); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(200,200,200,0.06); }
+  50%       { box-shadow: 0 0 35px rgba(200,200,200,0.14); }
+}
+
+@keyframes log-in {
+  from { opacity: 0; transform: translateX(-6px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes success-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes progress-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.6; }
+}
+
+/* ── Layout ── */
+.wrapper {
+  border-left: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  min-height: 100vh;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* ── Background Grid ── */
+.bg-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 12rem 24rem;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Beams ── */
+.beams {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+  z-index: 0;
+  padding: 0 1.5rem;
+}
+@media (min-width: 768px) { .beams { padding: 0 3rem; } }
+@media (min-width: 1024px) { .beams { padding: 0 6rem; } }
+
+.beam-track {
+  position: relative;
+  width: 1px;
+  height: 100%;
+  background: rgba(255,255,255,0.015);
+  overflow: hidden;
+}
+.beam-track.center { display: none; }
+@media (min-width: 768px) {
+  .beam-track.center {
+    display: block;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+/* ── Nav ── */
+nav {
+  position: relative;
+  z-index: 50;
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(8px);
+  background: rgba(2,2,2,0.8);
+}
+.nav-inner {
+  display: flex;
+  height: 5rem;
+  padding: 0 1.5rem;
+  align-items: center;
+  justify-content: space-between;
+}
+@media (min-width: 768px) { .nav-inner { padding: 0 3rem; } }
+@media (min-width: 1024px) { .nav-inner { padding: 0 6rem; } }
+
+.nav-github-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.45rem 0.65rem 0.45rem 0.55rem;
+  border-radius: 10px;
+  border: 0.75px solid #424b5b;
+  background: linear-gradient(90deg, rgba(1,1,1,0.6) 0%, rgba(1,1,1,0.46) 60%, rgba(1,1,1,0) 100%);
+  text-decoration: none;
+  transition: border-color 0.3s ease, background 0.3s ease;
+  animation: animationIn 0.8s var(--ease-cinematic) 0s both;
+}
+.nav-github-btn:hover {
+  border-color: rgba(100,116,139,0.7);
+  background: linear-gradient(90deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 60%, rgba(255,255,255,0) 100%);
+}
+.nav-github-content {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+.nav-github-icon {
+  width: 28px;
+  height: 28px;
+  color: rgba(255,255,255,0.85);
+  flex-shrink: 0;
+}
+.nav-github-text {
+  display: flex;
+  flex-direction: column;
+  padding-right: 1rem;
+}
+.nav-github-text-main {
+  font-family: var(--font);
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: #fff;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+.nav-github-text-sub {
+  font-family: var(--font);
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: #6e7681;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+.nav-github-arrow {
+  color: rgba(255,255,255,0.35);
+  flex-shrink: 0;
+}
+
+/* ── Dot luminoso ── */
+.dot-glow {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(220,220,220,0.85);
+  box-shadow: 0 0 5px rgba(255,255,255,0.6), 0 0 10px rgba(255,255,255,0.25);
+  flex-shrink: 0;
+}
+
+/* ── Hero ── */
+.hero {
+  position: relative;
+  z-index: 10;
+  padding: 5rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: calc(100vh - 5rem);
+}
+@media (min-width: 768px) { .hero { padding: 6rem 3rem; } }
+@media (min-width: 1024px) { .hero { padding: 8rem 6rem; } }
+
+.hero-inner {
+  width: 100%;
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* Badge */
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: fit-content;
+  padding: 0.35rem 0.85rem;
+  border-radius: 4px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.03);
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  animation: animationIn 0.8s var(--ease-cinematic) 0.1s both;
+}
+.hero-tag-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(200,200,200,0.6);
+}
+
+/* Title */
+.hero-title {
+  margin: 0;
+  font-size: 2.75rem;
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  animation: animationIn 0.8s var(--ease-cinematic) 0.2s both;
+}
+@media (min-width: 768px) { .hero-title { font-size: 3.5rem; } }
+.hero-title .accent { color: #D4D4D4; font-weight: 500; }
+
+/* Subtitle */
+.hero-sub {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 400;
+  line-height: 1.7;
+  color: var(--text-muted);
+  animation: animationIn 0.8s var(--ease-cinematic) 0.3s both;
+}
+
+/* ── App Card ── */
+.app-card {
+  animation: animationIn 0.8s var(--ease-cinematic) 0.45s both;
+}
+
+/* URL Input */
+.input-wrap {
+  position: relative;
+  margin-bottom: 0.75rem;
+}
+.input-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-dim);
+  pointer-events: none;
+  transition: color 0.3s ease;
+  display: flex;
+}
+.url-input {
+  width: 100%;
+  padding: 1rem 1rem 1rem 2.75rem;
+  background: rgba(2,2,2,0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 6px;
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+.url-input::placeholder { color: var(--text-dim); }
+.url-input:focus {
+  border-color: rgba(255,255,255,0.2);
+  box-shadow: 0 0 0 3px rgba(255,255,255,0.04), 0 0 20px rgba(255,255,255,0.04);
+  background: rgba(255,255,255,0.02);
+}
+.url-input:focus + .input-icon,
+.input-wrap:focus-within .input-icon { color: rgba(255,255,255,0.55); }
+.url-input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Button */
+.dl-btn {
+  position: relative;
+  width: 100%;
+  padding: 1rem 1.5rem;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 6px;
+  color: rgba(255,255,255,0.8);
+  font-family: var(--font);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  overflow: hidden;
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s var(--ease-cinematic), color 0.3s ease;
+}
+.dl-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -60%;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+  transform: skewX(-15deg);
+  transition: none;
+}
+.dl-btn:hover:not(:disabled) {
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.22);
+  box-shadow: 0 0 30px rgba(255,255,255,0.06), inset 0 1px 0 rgba(255,255,255,0.08);
+  transform: translateY(-1px);
+  color: #fff;
+}
+.dl-btn:hover:not(:disabled)::before {
+  animation: shimmer 0.6s ease forwards;
+}
+.dl-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  transform: none;
+}
+.dl-btn.loading {
+  animation: pulse-glow 2s ease infinite;
+}
+
+/* Spinner */
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid rgba(255,255,255,0.12);
+  border-radius: 50%;
+  border-top-color: rgba(255,255,255,0.7);
+  animation: spin 0.7s linear infinite;
+  display: none;
+}
+
+/* Progress bar */
+.progress-wrap {
+  height: 2px;
+  background: rgba(255,255,255,0.04);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 0.5rem;
+  display: none;
+}
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #444, #C8C8C8);
+  border-radius: 2px;
+  transition: width 0.4s var(--ease-smooth);
+  box-shadow: 0 0 8px rgba(200,200,200,0.2);
+  animation: progress-pulse 1.5s ease infinite;
+}
+.progress-wrap.active { display: block; }
+
+/* Log Terminal */
+.log-container {
+  margin-top: 1rem;
+  background: rgba(0,0,0,0.6);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 6px;
+  overflow: hidden;
+  display: none;
+}
+.log-container.active { display: block; }
+
+.log-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  background: rgba(255,255,255,0.02);
+}
+.log-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+.log-dot-r { background: #ff5f57; }
+.log-dot-y { background: #febc2e; }
+.log-dot-g { background: #28c840; }
+.log-label {
+  margin-left: auto;
+  font-size: 0.6rem;
+  font-family: var(--mono);
+  color: var(--text-dim);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.log-body {
+  padding: 0.75rem 1rem;
+  max-height: 180px;
+  overflow-y: auto;
+}
+.log-body::-webkit-scrollbar { width: 2px; }
+.log-body::-webkit-scrollbar-thumb { background: #222; }
+
+.log-entry {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.4);
+  padding: 2px 0;
+  animation: log-in 0.25s var(--ease-cinematic);
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+.log-entry::before {
+  content: '›';
+  color: var(--text-dim);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.log-entry.success { color: rgba(200,200,200,0.85); }
+.log-entry.success::before { color: rgba(200,200,200,0.6); }
+.log-entry.error { color: rgba(255,80,80,0.7); }
+.log-entry.error::before { content: '✕'; color: rgba(255,80,80,0.5); }
+
+/* Success */
+.success-box {
+  margin-top: 0.75rem;
+  padding: 1rem 1.25rem;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 6px;
+  display: none;
+  animation: success-up 0.4s var(--ease-cinematic);
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.success-box.active { display: flex; }
+.success-text {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.75);
+  font-weight: 500;
+}
+.success-text svg { color: rgba(200,200,200,0.8); }
+.success-link {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  text-decoration: none;
+  padding: 0.35rem 0.75rem;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+.success-link:hover {
+  border-color: rgba(255,255,255,0.15);
+  color: rgba(255,255,255,0.8);
+}
+
+/* ── Ticker ── */
+.ticker-section {
+  position: relative;
+  z-index: 10;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-2);
+  padding: 1.25rem 0;
+  overflow: hidden;
+}
+.ticker-mask {
+  -webkit-mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
+  mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
+}
+.ticker-inner {
+  display: flex;
+  width: max-content;
+  animation: scroll 35s linear infinite;
+}
+.ticker-group {
+  display: flex;
+  align-items: center;
+  gap: 4rem;
+  padding: 0 2rem;
+}
+.ticker-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: rgba(255,255,255,0.25);
+  white-space: nowrap;
+}
+.ticker-item svg { color: rgba(255,255,255,0.2); }
+
+/* ── Features ── */
+.features-section {
+  position: relative;
+  z-index: 10;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1px;
+  background: var(--border);
+  border-bottom: 1px solid var(--border);
+}
+@media (min-width: 768px) { .features-section { grid-template-columns: repeat(3, 1fr); } }
+
+.feature-card {
+  background: var(--bg);
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  cursor: default;
+}
+.feature-num {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  letter-spacing: 0.1em;
+}
+.feature-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,0.7);
+  transition: transform 0.5s var(--ease-cinematic), border-color 0.3s ease, background 0.3s ease;
+}
+.feature-card:hover .feature-icon {
+  transform: scale(1.1);
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.18);
+  color: rgba(255,255,255,0.9);
+}
+.feature-title {
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--text);
+  margin: 0 0 0.5rem;
+  letter-spacing: -0.01em;
+}
+.feature-desc {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.65;
+  margin: 0;
+}
+.feature-header { display: flex; align-items: flex-start; justify-content: space-between; }
+
+/* ── Footer ── */
+footer {
+  position: relative;
+  z-index: 10;
+  border-top: 1px solid var(--border);
+  padding: 2rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+@media (min-width: 768px) { footer { padding: 2rem 3rem; } }
+@media (min-width: 1024px) { footer { padding: 2rem 6rem; } }
+
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+.footer-brand svg { color: rgba(255,255,255,0.25); }
+.footer-copy {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  font-family: var(--mono);
+}
+</style>
 </head>
+
 <body>
-    <div class="container">
-        <h1>🌐 Website Downloader</h1>
-        <p class="subtitle">Baixe uma réplica perfeita de qualquer site, incluindo JS renderizado</p>
-        
-        <div class="input-group">
-            <input type="url" id="urlInput" placeholder="https://exemplo.com" required>
+
+<!-- ── UnicornStudio Background ── -->
+<div style="position:fixed; inset:0; z-index:-10; width:100%; height:100%;">
+  <div style="position:absolute; inset:0; z-index:-1;" data-us-project="guA2nIvok3TuYtPyn8zX"></div>
+  <script type="text/javascript">
+    !function(){if(!window.UnicornStudio){window.UnicornStudio={isInitialized:!1};var i=document.createElement("script");i.src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v1.4.29/dist/unicornStudio.umd.js",i.onload=function(){window.UnicornStudio.isInitialized||(UnicornStudio.init(),window.UnicornStudio.isInitialized=!0)},(document.head||document.body).appendChild(i)}}();
+  </script>
+  <!-- Neutral dark overlay to desaturate the UnicornStudio beam -->
+  <div style="position:absolute; inset:0; background: rgba(2,2,2,0.45); pointer-events:none; mix-blend-mode: color; z-index:1;"></div>
+  <!-- Additional desaturation layer -->
+  <div style="position:absolute; inset:0; backdrop-filter: saturate(0.15); pointer-events:none; z-index:1;"></div>
+  <!-- Dark overlay to dim animation cross shape -->
+  <div style="position:absolute; inset:0; background: rgba(2,2,2,0.13); pointer-events:none; z-index:2;"></div>
+  <!-- Fade bottom -->
+  <div style="position:absolute; bottom:0; left:0; right:0; height:40%; background: linear-gradient(to bottom, transparent, #020202); pointer-events:none; z-index:2;"></div>
+</div>
+
+<!-- ── Main Wrapper ── -->
+<div class="wrapper">
+  <div class="bg-grid"></div>
+
+  <!-- Beams -->
+  <div class="beams">
+    <div class="beam-track"><div class="beam"></div></div>
+    <div class="beam-track center"><div class="beam beam-delay-1"></div></div>
+    <div class="beam-track"><div class="beam beam-delay-2"></div></div>
+  </div>
+
+  <!-- ── Nav ── -->
+  <nav>
+    <div class="nav-inner">
+      <a class="nav-github-btn" href="https://github.com/asimov-academy/Website-Downloader" target="_blank" rel="noopener noreferrer">
+        <div class="nav-github-content">
+          <svg class="nav-github-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+          </svg>
+          <div class="nav-github-text">
+            <span class="nav-github-text-main">Repositório oficial</span>
+            <span class="nav-github-text-sub">GitHub.com</span>
+          </div>
         </div>
-        
-        <button id="downloadBtn" onclick="startDownload()">
-            <span id="btnText">Baixar Réplica</span>
-            <div class="spinner" id="spinner" style="display: none;"></div>
-        </button>
-        
-        <div class="log-container" id="logContainer"></div>
-        
-        <div class="success-message" id="successMessage">
-            ✅ Download pronto! <a href="#" id="downloadLink">Clique aqui se não iniciou automaticamente</a>
+        <svg class="nav-github-arrow" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M7 7h10v10"/></svg>
+      </a>
+    </div>
+  </nav>
+
+  <!-- ── Hero ── -->
+  <main>
+    <section class="hero">
+      <div class="hero-inner">
+
+        <!-- Tag -->
+        <div class="hero-tag animate-on-scroll animate" style="animation: animationIn 0.8s var(--ease-cinematic) 0.1s both;">
+          <span class="dot-glow"></span>
+          WebDrop
         </div>
+
+        <!-- Title -->
+        <h1 class="hero-title animate-on-scroll animate" style="animation: animationIn 0.8s var(--ease-cinematic) 0.2s both;">
+          Baixe qualquer site<br>
+          <span class="accent">com JS renderizado.</span>
+        </h1>
+
+        <!-- Sub -->
+        <p class="hero-sub animate-on-scroll animate" style="animation: animationIn 0.8s var(--ease-cinematic) 0.3s both;">
+          Captura completa — HTML, CSS, JS, imagens e fontes.<br>
+          Renderização de conteúdo dinâmico e exportação em ZIP.
+        </p>
+
+        <!-- App Card -->
+        <div class="app-card">
+
+          <!-- Input -->
+          <div class="input-wrap">
+            <input
+              type="url"
+              id="urlInput"
+              class="url-input"
+              placeholder="https://exemplo.com"
+              required
+            >
+            <span class="input-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+            </span>
+          </div>
+
+          <!-- Button -->
+          <button id="downloadBtn" class="dl-btn" onclick="startDownload()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="btnIcon"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <span id="btnText">Fazer download</span>
+            <div class="spinner" id="spinner"></div>
+          </button>
+
+          <!-- Progress -->
+          <div class="progress-wrap" id="progressWrap">
+            <div class="progress-bar" id="progressBar"></div>
+          </div>
+
+          <!-- Log Terminal -->
+          <div class="log-container" id="logContainer">
+            <div class="log-header">
+              <span class="log-dot log-dot-r"></span>
+              <span class="log-dot log-dot-y"></span>
+              <span class="log-dot log-dot-g"></span>
+              <span class="log-label">stdout</span>
+            </div>
+            <div class="log-body" id="logBody"></div>
+          </div>
+
+          <!-- Success -->
+          <div class="success-box" id="successMessage">
+            <div class="success-text">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              Download concluído!
+            </div>
+            <a href="#" id="downloadLink" class="success-link">↓ baixar ZIP</a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Ticker ── -->
+    <div class="ticker-section">
+      <div class="ticker-mask">
+        <div class="ticker-inner">
+          <div class="ticker-group">
+            <div class="ticker-item">
+              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+              HTML · CSS · JS
+            </div>
+            <div class="ticker-item">
+              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+              Playwright Render
+            </div>
+            <div class="ticker-item">
+              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Exportação ZIP
+            </div>
+            <div class="ticker-item">
+              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+              Lazy Load Capture
+            </div>
+            <div class="ticker-item">
+              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+              Next.js · Gatsby · Nuxt
+            </div>
+            <div class="ticker-item">
+              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              Offline Ready
+            </div>
+          </div>
+          <!-- duplicate for infinite loop -->
+          <div class="ticker-group">
+            <div class="ticker-item">
+              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+              HTML · CSS · JS
+            </div>
+            <div class="ticker-item">
+              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+              Playwright Render
+            </div>
+            <div class="ticker-item">
+              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Exportação ZIP
+            </div>
+            <div class="ticker-item">
+              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+              Lazy Load Capture
+            </div>
+            <div class="ticker-item">
+              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+              Next.js · Gatsby · Nuxt
+            </div>
+            <div class="ticker-item">
+              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              Offline Ready
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <script>
-        let currentSessionId = null;
-        let eventSource = null;
+    <!-- ── Features ── -->
+    <div class="features-section">
+      <div class="spotlight-card feature-card animate-on-scroll" style="animation: animationIn 0.8s var(--ease-cinematic) 0.2s both;">
+        <div class="feature-header">
+          <div class="feature-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          </div>
+          <span class="feature-num">01</span>
+        </div>
+        <div>
+          <h3 class="feature-title">Captura completa</h3>
+          <p class="feature-desc">Playwright renderiza JavaScript antes de capturar — ideal para SPAs, Next.js, Gatsby e Nuxt.</p>
+        </div>
+      </div>
+      <div class="spotlight-card feature-card animate-on-scroll" style="animation: animationIn 0.8s var(--ease-cinematic) 0.35s both;">
+        <div class="feature-header">
+          <div class="feature-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+          </div>
+          <span class="feature-num">02</span>
+        </div>
+        <div>
+          <h3 class="feature-title">Logs em tempo real</h3>
+          <p class="feature-desc">Server-Sent Events via Flask transmitem cada etapa do processo de download ao vivo.</p>
+        </div>
+      </div>
+      <div class="spotlight-card feature-card animate-on-scroll" style="animation: animationIn 0.8s var(--ease-cinematic) 0.5s both;">
+        <div class="feature-header">
+          <div class="feature-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          </div>
+          <span class="feature-num">03</span>
+        </div>
+        <div>
+          <h3 class="feature-title">Exporta em ZIP</h3>
+          <p class="feature-desc">Todos os assets empacotados com URLs reescritas para funcionar offline sem dependências externas.</p>
+        </div>
+      </div>
+    </div>
 
-        function startDownload() {
-            const url = document.getElementById('urlInput').value.trim();
-            if (!url) {
-                alert('Por favor, insira uma URL válida');
-                return;
-            }
+  </main>
 
-            // Update UI
-            setLoading(true);
-            clearLogs();
-            hideSuccess();
+  <!-- ── Footer ── -->
+  <footer>
+    <div class="footer-brand">
+      <span class="dot-glow"></span>
+      WebDrop
+    </div>
+    <span class="footer-copy">Apoie o projeto original 💜</span>
+  </footer>
 
-            // Start download
-            fetch('/start-download', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ url: url })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.error) {
-                    addLog('❌ ' + data.error);
-                    setLoading(false);
-                    return;
-                }
-                
-                currentSessionId = data.session_id;
-                connectSSE(currentSessionId);
-            })
-            .catch(error => {
-                addLog('❌ Erro de conexão: ' + error.message);
-                setLoading(false);
-            });
+</div><!-- /wrapper -->
+
+<!-- ── App Logic (preserved from original) ── -->
+<script>
+  let currentSessionId = null;
+  let eventSource = null;
+  let progressInterval = null;
+  let fakeProgress = 0;
+
+  function startDownload() {
+    const url = document.getElementById('urlInput').value.trim();
+    if (!url) {
+      shakeinput();
+      return;
+    }
+    setLoading(true);
+    clearLogs();
+    hideSuccess();
+
+    fetch('/start-download', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url })
+    })
+    .then(r => r.json())
+    .then(data => {
+      if (data.error) { addLog('Erro: ' + data.error, 'error'); setLoading(false); return; }
+      currentSessionId = data.session_id;
+      connectSSE(currentSessionId);
+    })
+    .catch(err => { addLog('Erro de conexão: ' + err.message, 'error'); setLoading(false); });
+  }
+
+  function connectSSE(sessionId) {
+    eventSource = new EventSource('/stream/' + sessionId);
+    eventSource.onmessage = e => addLog(e.data);
+    eventSource.addEventListener('done', e => {
+      eventSource.close();
+      clearInterval(progressInterval);
+      if (e.data === 'complete') {
+        setProgress(100);
+        setTimeout(() => { triggerDownload(sessionId); showSuccess(sessionId); }, 300);
+      } else {
+        addLog('Download falhou.', 'error');
+      }
+      setTimeout(resetUI, 2000);
+    });
+    eventSource.onerror = () => { eventSource.close(); setLoading(false); clearInterval(progressInterval); };
+  }
+
+  function triggerDownload(sessionId) {
+    const a = document.createElement('a');
+    a.href = '/download-file/' + sessionId;
+    a.click();
+    document.getElementById('downloadLink').href = '/download-file/' + sessionId;
+  }
+
+  function showSuccess(sessionId) {
+    document.getElementById('successMessage').classList.add('active');
+    document.getElementById('downloadLink').href = '/download-file/' + sessionId;
+  }
+
+  function hideSuccess() {
+    document.getElementById('successMessage').classList.remove('active');
+  }
+
+  function setProgress(val) {
+    const bar = document.getElementById('progressBar');
+    bar.style.width = val + '%';
+  }
+
+  function startFakeProgress() {
+    fakeProgress = 0;
+    const wrap = document.getElementById('progressWrap');
+    wrap.classList.add('active');
+    progressInterval = setInterval(() => {
+      if (fakeProgress < 85) {
+        fakeProgress += Math.random() * 3;
+        setProgress(Math.min(fakeProgress, 85));
+      }
+    }, 400);
+  }
+
+  function setLoading(loading) {
+    const btn = document.getElementById('downloadBtn');
+    const text = document.getElementById('btnText');
+    const spinner = document.getElementById('spinner');
+    const icon = document.getElementById('btnIcon');
+    const input = document.getElementById('urlInput');
+    const logContainer = document.getElementById('logContainer');
+
+    btn.disabled = loading;
+    input.disabled = loading;
+    spinner.style.display = loading ? 'block' : 'none';
+    icon.style.display = loading ? 'none' : 'block';
+    text.textContent = loading ? 'Processando...' : 'Fazer download';
+
+    if (loading) {
+      btn.classList.add('loading');
+      logContainer.classList.add('active');
+      startFakeProgress();
+    } else {
+      btn.classList.remove('loading');
+    }
+  }
+
+  function resetUI() {
+    setLoading(false);
+    document.getElementById('urlInput').value = '';
+    setTimeout(() => {
+      document.getElementById('logContainer').classList.remove('active');
+      document.getElementById('progressWrap').classList.remove('active');
+      setProgress(0);
+      hideSuccess();
+      clearLogs();
+    }, 5000);
+  }
+
+  function addLog(message, type = '') {
+    const body = document.getElementById('logBody');
+    const entry = document.createElement('div');
+    entry.className = 'log-entry' + (type ? ' ' + type : '');
+
+    // Detect success/error automatically
+    if (!type) {
+      if (message.includes('✅') || message.includes('concluído') || message.includes('complete') || message.includes('ZIP')) {
+        entry.classList.add('success');
+      } else if (message.includes('❌') || message.includes('erro') || message.includes('falhou')) {
+        entry.classList.add('error');
+      }
+    }
+
+    entry.textContent = message;
+    body.appendChild(entry);
+    body.scrollTop = body.scrollHeight;
+  }
+
+  function clearLogs() {
+    document.getElementById('logBody').innerHTML = '';
+  }
+
+  function shakeinput() {
+    const input = document.getElementById('urlInput');
+    input.style.borderColor = 'rgba(255,80,80,0.4)';
+    input.style.animation = 'shake 0.3s ease';
+    setTimeout(() => {
+      input.style.borderColor = '';
+      input.style.animation = '';
+    }, 400);
+  }
+
+  // Enter key
+  document.getElementById('urlInput').addEventListener('keypress', e => {
+    if (e.key === 'Enter' && !document.getElementById('downloadBtn').disabled) startDownload();
+  });
+
+  // ── Aura JS (spotlight + scroll reveal) ──
+  document.addEventListener('DOMContentLoaded', () => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate');
+          observer.unobserve(entry.target);
         }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -5% 0px' });
 
-        function connectSSE(sessionId) {
-            eventSource = new EventSource('/stream/' + sessionId);
+    document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
 
-            eventSource.onmessage = function(event) {
-                addLog(event.data);
-            };
+    const cards = document.querySelectorAll('.spotlight-card');
+    document.addEventListener('mousemove', e => {
+      cards.forEach(card => {
+        const rect = card.getBoundingClientRect();
+        card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+        card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+      });
+    });
+  });
+</script>
 
-            eventSource.addEventListener('done', function(event) {
-                eventSource.close();
-                
-                if (event.data === 'complete') {
-                    // Trigger download
-                    triggerDownload(sessionId);
-                    showSuccess(sessionId);
-                } else {
-                    addLog('❌ Download falhou');
-                }
-                
-                // Reset UI after a short delay
-                setTimeout(resetUI, 2000);
-            });
-
-            eventSource.onerror = function() {
-                eventSource.close();
-                setLoading(false);
-            };
-        }
-
-        function triggerDownload(sessionId) {
-            const link = document.createElement('a');
-            link.href = '/download-file/' + sessionId;
-            link.click();
-            
-            // Update manual download link
-            document.getElementById('downloadLink').href = '/download-file/' + sessionId;
-        }
-
-        function showSuccess(sessionId) {
-            document.getElementById('successMessage').classList.add('active');
-            document.getElementById('downloadLink').href = '/download-file/' + sessionId;
-        }
-
-        function hideSuccess() {
-            document.getElementById('successMessage').classList.remove('active');
-        }
-
-        function setLoading(loading) {
-            const btn = document.getElementById('downloadBtn');
-            const btnText = document.getElementById('btnText');
-            const spinner = document.getElementById('spinner');
-            const input = document.getElementById('urlInput');
-            const logContainer = document.getElementById('logContainer');
-
-            btn.disabled = loading;
-            input.disabled = loading;
-            spinner.style.display = loading ? 'block' : 'none';
-            btnText.textContent = loading ? 'Processando...' : 'Baixar Réplica';
-            
-            if (loading) {
-                logContainer.classList.add('active');
-            }
-        }
-
-        function resetUI() {
-            setLoading(false);
-            document.getElementById('urlInput').value = '';
-            
-            // Hide logs after delay
-            setTimeout(() => {
-                document.getElementById('logContainer').classList.remove('active');
-                hideSuccess();
-                clearLogs();
-            }, 5000);
-        }
-
-        function addLog(message) {
-            const container = document.getElementById('logContainer');
-            const entry = document.createElement('div');
-            entry.className = 'log-entry';
-            entry.textContent = message;
-            container.appendChild(entry);
-            container.scrollTop = container.scrollHeight;
-        }
-
-        function clearLogs() {
-            document.getElementById('logContainer').innerHTML = '';
-        }
-
-        // Handle Enter key
-        document.getElementById('urlInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter' && !document.getElementById('downloadBtn').disabled) {
-                startDownload();
-            }
-        });
-    </script>
 </body>
 </html>
