@@ -6,3 +6,13 @@ services:
     envVars:
       - key: PORT
         value: 8080
+      - key: GITHUB_UPLOAD_TOKEN
+        sync: false
+      - key: GITHUB_TARGET_OWNER
+        value: eurodrigobispo
+      - key: GITHUB_TARGET_REPO
+        value: referencias-html
+      - key: GITHUB_TARGET_BRANCH
+        value: main
+      - key: GITHUB_TARGET_ROOT
+        value: sites

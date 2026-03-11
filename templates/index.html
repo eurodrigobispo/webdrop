@@ -391,6 +391,49 @@ nav {
   cursor: not-allowed;
 }
 
+.repo-option-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 6px;
+  background: rgba(255,255,255,0.02);
+}
+.repo-option {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.72);
+}
+.repo-option input {
+  width: 16px;
+  height: 16px;
+  accent-color: #d4d4d4;
+}
+.repo-option strong {
+  font-weight: 600;
+  color: rgba(255,255,255,0.92);
+}
+.repo-option-hint {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  text-align: right;
+  line-height: 1.5;
+}
+@media (max-width: 768px) {
+  .repo-option-wrap {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .repo-option-hint {
+    text-align: left;
+  }
+}
+
 /* Button */
 .dl-btn {
   position: relative;
@@ -553,6 +596,11 @@ nav {
   gap: 1rem;
 }
 .success-box.active { display: flex; }
+.success-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
 .success-text {
   display: flex;
   align-items: center;
@@ -562,6 +610,18 @@ nav {
   font-weight: 500;
 }
 .success-text svg { color: rgba(200,200,200,0.8); }
+.success-subtext {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+.success-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
 .success-link {
   font-size: 0.75rem;
   color: var(--text-dim);
@@ -575,6 +635,23 @@ nav {
 .success-link:hover {
   border-color: rgba(255,255,255,0.15);
   color: rgba(255,255,255,0.8);
+}
+.success-button {
+  background: transparent;
+}
+.success-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+@media (max-width: 768px) {
+  .success-box {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .success-actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
 }
 
 /* ── Ticker ── */
@@ -795,6 +872,14 @@ footer {
             </span>
           </div>
 
+          <div class="repo-option-wrap">
+            <label class="repo-option">
+              <input type="checkbox" id="autoUploadCheckbox" checked>
+              <span>Enviar uma copia para o repositório <strong>referencias-html</strong></span>
+            </label>
+            <span class="repo-option-hint" id="repoOptionHint">O ZIP pode ser baixado e enviado ao GitHub no mesmo fluxo.</span>
+          </div>
+
           <!-- Button -->
           <button id="downloadBtn" class="dl-btn" onclick="startDownload()">
             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="btnIcon"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
@@ -820,11 +905,18 @@ footer {
 
           <!-- Success -->
           <div class="success-box" id="successMessage">
-            <div class="success-text">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-              Download concluído!
+            <div class="success-copy">
+              <div class="success-text">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                Download concluído!
+              </div>
+              <div class="success-subtext" id="repoUploadStatus">O ZIP esta pronto para baixar.</div>
             </div>
-            <a href="#" id="downloadLink" class="success-link">↓ baixar ZIP</a>
+            <div class="success-actions">
+              <a href="#" id="downloadLink" class="success-link">Baixar ZIP</a>
+              <button type="button" id="repoUploadBtn" class="success-link success-button" onclick="uploadCurrentZip()">Enviar ao repositório</button>
+              <a href="#" id="repoFileLink" class="success-link" target="_blank" rel="noopener noreferrer" style="display:none;">Abrir no GitHub</a>
+            </div>
           </div>
 
         </div>
@@ -947,13 +1039,17 @@ footer {
 
 <!-- ── App Logic (preserved from original) ── -->
 <script>
+  const repoUploadConfigured = {{ 'true' if repo_upload_enabled else 'false' }};
+  const repoUploadRepo = {{ repo_upload_repo|tojson }};
   let currentSessionId = null;
+  let currentSessionResult = null;
   let eventSource = null;
   let progressInterval = null;
   let fakeProgress = 0;
 
   function startDownload() {
     const url = document.getElementById('urlInput').value.trim();
+    const uploadToRepo = repoUploadConfigured && document.getElementById('autoUploadCheckbox').checked;
     if (!url) {
       shakeinput();
       return;
@@ -961,11 +1057,12 @@ footer {
     setLoading(true);
     clearLogs();
     hideSuccess();
+    currentSessionResult = null;
 
     fetch('/start-download', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ url })
+      body: JSON.stringify({ url, upload_to_repo: uploadToRepo })
     })
     .then(r => r.json())
     .then(data => {
@@ -984,29 +1081,130 @@ footer {
       clearInterval(progressInterval);
       if (e.data === 'complete') {
         setProgress(100);
-        setTimeout(() => { triggerDownload(sessionId); showSuccess(sessionId); }, 300);
+        setTimeout(() => {
+          triggerDownload(sessionId);
+          loadSessionResult(sessionId);
+        }, 300);
       } else {
         addLog('Download falhou.', 'error');
       }
-      setTimeout(resetUI, 2000);
+      setTimeout(resetUI, 1200);
     });
     eventSource.onerror = () => { eventSource.close(); setLoading(false); clearInterval(progressInterval); };
   }
 
-  function triggerDownload(sessionId) {
-    const a = document.createElement('a');
-    a.href = '/download-file/' + sessionId;
-    a.click();
-    document.getElementById('downloadLink').href = '/download-file/' + sessionId;
+  function loadSessionResult(sessionId) {
+    fetch('/session-result/' + sessionId)
+      .then(r => r.json())
+      .then(result => {
+        currentSessionResult = result;
+        showSuccess(sessionId, result);
+      })
+      .catch(() => showSuccess(sessionId));
   }
 
-  function showSuccess(sessionId) {
+  function triggerDownload(sessionId) {
+    const downloadUrl = '/download-file/' + sessionId;
+    const a = document.createElement('a');
+    a.href = downloadUrl;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    document.getElementById('downloadLink').href = downloadUrl;
+  }
+
+  function showSuccess(sessionId, result = null) {
     document.getElementById('successMessage').classList.add('active');
     document.getElementById('downloadLink').href = '/download-file/' + sessionId;
+    updateRepoUploadState(result);
   }
 
   function hideSuccess() {
     document.getElementById('successMessage').classList.remove('active');
+    document.getElementById('repoUploadStatus').textContent = 'O ZIP esta pronto para baixar.';
+    document.getElementById('repoUploadBtn').textContent = 'Enviar ao repositório';
+    document.getElementById('repoUploadBtn').disabled = false;
+    document.getElementById('repoFileLink').style.display = 'none';
+    document.getElementById('repoFileLink').href = '#';
+  }
+
+  function updateRepoUploadState(result = null) {
+    const statusEl = document.getElementById('repoUploadStatus');
+    const uploadBtn = document.getElementById('repoUploadBtn');
+    const fileLink = document.getElementById('repoFileLink');
+
+    fileLink.style.display = 'none';
+    fileLink.href = '#';
+
+    if (!repoUploadConfigured) {
+      statusEl.textContent = 'Download concluido. Para enviar ao ' + repoUploadRepo + ', configure GITHUB_UPLOAD_TOKEN no servidor.';
+      uploadBtn.textContent = 'Envio indisponivel';
+      uploadBtn.disabled = true;
+      return;
+    }
+
+    const uploadState = result && result.repo_upload ? result.repo_upload : { status: 'idle' };
+
+    if (uploadState.status === 'uploaded') {
+      statusEl.textContent = 'ZIP enviado com sucesso para ' + repoUploadRepo + '.';
+      uploadBtn.textContent = 'Enviado';
+      uploadBtn.disabled = true;
+      if (uploadState.url) {
+        fileLink.href = uploadState.url;
+        fileLink.style.display = 'inline-flex';
+      }
+      return;
+    }
+
+    if (uploadState.status === 'error') {
+      statusEl.textContent = 'O ZIP foi baixado, mas o envio ao repositório falhou. Voce pode tentar novamente.';
+      uploadBtn.textContent = 'Tentar novamente';
+      uploadBtn.disabled = false;
+      return;
+    }
+
+    if (uploadState.status === 'unavailable') {
+      statusEl.textContent = 'O envio automatico nao esta disponivel neste servidor.';
+      uploadBtn.textContent = 'Envio indisponivel';
+      uploadBtn.disabled = true;
+      return;
+    }
+
+    if (result && result.upload_requested) {
+      statusEl.textContent = 'O ZIP foi baixado. Caso o envio automatico nao apareca como concluido, voce pode reenviar manualmente.';
+    } else {
+      statusEl.textContent = 'O ZIP esta pronto. Se quiser, envie uma copia para ' + repoUploadRepo + '.';
+    }
+
+    uploadBtn.textContent = 'Enviar ao repositório';
+    uploadBtn.disabled = false;
+  }
+
+  function uploadCurrentZip() {
+    const uploadBtn = document.getElementById('repoUploadBtn');
+    if (!currentSessionId || !repoUploadConfigured) {
+      return;
+    }
+
+    uploadBtn.disabled = true;
+    uploadBtn.textContent = 'Enviando...';
+
+    fetch('/upload-to-repo/' + currentSessionId, { method: 'POST' })
+      .then(async r => {
+        const data = await r.json();
+        if (!r.ok) {
+          throw new Error(data.error || 'Falha ao enviar para o GitHub');
+        }
+        currentSessionResult = { ...(currentSessionResult || {}), repo_upload: data };
+        updateRepoUploadState(currentSessionResult);
+      })
+      .catch(err => {
+        currentSessionResult = {
+          ...(currentSessionResult || {}),
+          repo_upload: { status: 'error', error: err.message }
+        };
+        updateRepoUploadState(currentSessionResult);
+      });
   }
 
   function setProgress(val) {
@@ -1032,10 +1230,12 @@ footer {
     const spinner = document.getElementById('spinner');
     const icon = document.getElementById('btnIcon');
     const input = document.getElementById('urlInput');
+    const autoUploadCheckbox = document.getElementById('autoUploadCheckbox');
     const logContainer = document.getElementById('logContainer');
 
     btn.disabled = loading;
     input.disabled = loading;
+    autoUploadCheckbox.disabled = loading || !repoUploadConfigured;
     spinner.style.display = loading ? 'block' : 'none';
     icon.style.display = loading ? 'none' : 'block';
     text.textContent = loading ? 'Processando...' : 'Fazer download';
@@ -1051,14 +1251,8 @@ footer {
 
   function resetUI() {
     setLoading(false);
-    document.getElementById('urlInput').value = '';
-    setTimeout(() => {
-      document.getElementById('logContainer').classList.remove('active');
-      document.getElementById('progressWrap').classList.remove('active');
-      setProgress(0);
-      hideSuccess();
-      clearLogs();
-    }, 5000);
+    document.getElementById('progressWrap').classList.remove('active');
+    setProgress(0);
   }
 
   function addLog(message, type = '') {
@@ -1095,12 +1289,27 @@ footer {
   }
 
   // Enter key
+  function syncRepoUploadPreference() {
+    const autoUploadCheckbox = document.getElementById('autoUploadCheckbox');
+    const repoOptionHint = document.getElementById('repoOptionHint');
+
+    if (!repoUploadConfigured) {
+      autoUploadCheckbox.checked = false;
+      autoUploadCheckbox.disabled = true;
+      repoOptionHint.textContent = 'Configure GITHUB_UPLOAD_TOKEN no servidor para habilitar o envio ao GitHub.';
+      return;
+    }
+
+    repoOptionHint.textContent = 'Marcado por padrao: ao concluir, o ZIP baixa no navegador e uma copia pode ser enviada para ' + repoUploadRepo + '.';
+  }
+
   document.getElementById('urlInput').addEventListener('keypress', e => {
     if (e.key === 'Enter' && !document.getElementById('downloadBtn').disabled) startDownload();
   });
 
   // ── Aura JS (spotlight + scroll reveal) ──
   document.addEventListener('DOMContentLoaded', () => {
+    syncRepoUploadPreference();
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
