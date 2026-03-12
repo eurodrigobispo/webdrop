@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html class="scroll-smooth" lang="pt-BR">
 <head>
 <meta charset="UTF-8">
@@ -43,7 +43,7 @@ body {
 ::-webkit-scrollbar-track { background: #000; }
 ::-webkit-scrollbar-thumb { background: #222; border-radius: 2px; }
 
-/* ── Spotlight Card ── */
+/* â”€â”€ Spotlight Card â”€â”€ */
 .spotlight-card {
   position: relative;
   border-radius: 4px;
@@ -82,7 +82,7 @@ body {
 }
 .spotlight-card:hover::before { opacity: 1; }
 
-/* ── Animations ── */
+/* â”€â”€ Animations â”€â”€ */
 @keyframes animationIn {
   0%   { opacity: 0; transform: translateY(20px); filter: blur(4px); }
   100% { opacity: 1; transform: translateY(0);    filter: blur(0px); }
@@ -142,7 +142,7 @@ body {
   50%       { opacity: 0.6; }
 }
 
-/* ── Layout ── */
+/* â”€â”€ Layout â”€â”€ */
 .wrapper {
   border-left: 1px solid var(--border);
   border-right: 1px solid var(--border);
@@ -153,7 +153,7 @@ body {
   position: relative;
 }
 
-/* ── Background Grid ── */
+/* â”€â”€ Background Grid â”€â”€ */
 .bg-grid {
   position: absolute;
   inset: 0;
@@ -165,7 +165,7 @@ body {
   z-index: 0;
 }
 
-/* ── Beams ── */
+/* â”€â”€ Beams â”€â”€ */
 .beams {
   position: absolute;
   inset: 0;
@@ -195,7 +195,7 @@ body {
   }
 }
 
-/* ── Nav ── */
+/* â”€â”€ Nav â”€â”€ */
 nav {
   position: relative;
   z-index: 50;
@@ -266,7 +266,7 @@ nav {
   flex-shrink: 0;
 }
 
-/* ── Dot luminoso ── */
+/* â”€â”€ Dot luminoso â”€â”€ */
 .dot-glow {
   width: 4px;
   height: 4px;
@@ -276,7 +276,7 @@ nav {
   flex-shrink: 0;
 }
 
-/* ── Hero ── */
+/* â”€â”€ Hero â”€â”€ */
 .hero {
   position: relative;
   z-index: 10;
@@ -344,7 +344,7 @@ nav {
   animation: animationIn 0.8s var(--ease-cinematic) 0.3s both;
 }
 
-/* ── App Card ── */
+/* â”€â”€ App Card â”€â”€ */
 .app-card {
   animation: animationIn 0.8s var(--ease-cinematic) 0.45s both;
 }
@@ -389,6 +389,78 @@ nav {
 .url-input:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+.mode-switch {
+  display: inline-flex;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  padding: 0.3rem;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 999px;
+  background: rgba(255,255,255,0.02);
+}
+.mode-tab {
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-dim);
+  font-family: var(--font);
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.65rem 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.mode-tab.active {
+  color: #fff;
+  background: rgba(255,255,255,0.08);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+}
+.mode-tab:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.input-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.batch-wrap {
+  display: none;
+}
+.batch-wrap.active {
+  display: block;
+}
+.batch-input {
+  width: 100%;
+  min-height: 148px;
+  resize: vertical;
+  padding: 1rem 1rem 1rem 1.1rem;
+  background: rgba(2,2,2,0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 6px;
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  line-height: 1.6;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+.batch-input::placeholder {
+  color: var(--text-dim);
+}
+.batch-input:focus {
+  border-color: rgba(255,255,255,0.2);
+  box-shadow: 0 0 0 3px rgba(255,255,255,0.04), 0 0 20px rgba(255,255,255,0.04);
+  background: rgba(255,255,255,0.02);
+}
+.batch-help {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  line-height: 1.6;
 }
 
 .repo-option-wrap {
@@ -572,7 +644,7 @@ nav {
   gap: 0.5rem;
 }
 .log-entry::before {
-  content: '›';
+  content: 'â€º';
   color: var(--text-dim);
   flex-shrink: 0;
   margin-top: 1px;
@@ -580,7 +652,7 @@ nav {
 .log-entry.success { color: rgba(200,200,200,0.85); }
 .log-entry.success::before { color: rgba(200,200,200,0.6); }
 .log-entry.error { color: rgba(255,80,80,0.7); }
-.log-entry.error::before { content: '✕'; color: rgba(255,80,80,0.5); }
+.log-entry.error::before { content: 'âœ•'; color: rgba(255,80,80,0.5); }
 
 /* Success */
 .success-box {
@@ -643,6 +715,86 @@ nav {
   opacity: 0.45;
   cursor: not-allowed;
 }
+.batch-results {
+  margin-top: 0.75rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  background: rgba(255,255,255,0.03);
+  display: none;
+}
+.batch-results.active {
+  display: block;
+}
+.batch-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 1rem;
+}
+.batch-summary-title {
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.84);
+  font-weight: 600;
+}
+.batch-summary-meta {
+  font-size: 0.76rem;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+.batch-list {
+  display: grid;
+  gap: 0.75rem;
+}
+.batch-item {
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 8px;
+  background: rgba(0,0,0,0.28);
+  padding: 0.9rem 1rem;
+}
+.batch-item-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+.batch-item-url {
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.8);
+  line-height: 1.6;
+  word-break: break-word;
+}
+.batch-item-meta {
+  margin-top: 0.35rem;
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+.batch-status {
+  flex-shrink: 0;
+  border-radius: 999px;
+  padding: 0.35rem 0.65rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border: 1px solid rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.72);
+  background: rgba(255,255,255,0.05);
+}
+.batch-status.complete {
+  color: rgba(210,210,210,0.95);
+}
+.batch-status.error {
+  color: rgba(255,120,120,0.88);
+  border-color: rgba(255,120,120,0.18);
+  background: rgba(255,80,80,0.08);
+}
+.batch-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 0.8rem;
+}
 @media (max-width: 768px) {
   .success-box {
     flex-direction: column;
@@ -652,9 +804,12 @@ nav {
     width: 100%;
     justify-content: flex-start;
   }
+  .batch-item-top {
+    flex-direction: column;
+  }
 }
 
-/* ── Ticker ── */
+/* â”€â”€ Ticker â”€â”€ */
 .ticker-section {
   position: relative;
   z-index: 10;
@@ -692,7 +847,7 @@ nav {
 }
 .ticker-item svg { color: rgba(255,255,255,0.2); }
 
-/* ── Features ── */
+/* â”€â”€ Features â”€â”€ */
 .features-section {
   position: relative;
   z-index: 10;
@@ -751,7 +906,7 @@ nav {
 }
 .feature-header { display: flex; align-items: flex-start; justify-content: space-between; }
 
-/* ── Footer ── */
+/* â”€â”€ Footer â”€â”€ */
 footer {
   position: relative;
   z-index: 10;
@@ -787,329 +942,149 @@ footer {
 
 <body>
 
-<!-- ── UnicornStudio Background ── -->
-<div style="position:fixed; inset:0; z-index:-10; width:100%; height:100%;">
-  <div style="position:absolute; inset:0; z-index:-1;" data-us-project="guA2nIvok3TuYtPyn8zX"></div>
-  <script type="text/javascript">
-    !function(){if(!window.UnicornStudio){window.UnicornStudio={isInitialized:!1};var i=document.createElement("script");i.src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v1.4.29/dist/unicornStudio.umd.js",i.onload=function(){window.UnicornStudio.isInitialized||(UnicornStudio.init(),window.UnicornStudio.isInitialized=!0)},(document.head||document.body).appendChild(i)}}();
-  </script>
-  <!-- Neutral dark overlay to desaturate the UnicornStudio beam -->
-  <div style="position:absolute; inset:0; background: rgba(2,2,2,0.45); pointer-events:none; mix-blend-mode: color; z-index:1;"></div>
-  <!-- Additional desaturation layer -->
-  <div style="position:absolute; inset:0; backdrop-filter: saturate(0.15); pointer-events:none; z-index:1;"></div>
-  <!-- Dark overlay to dim animation cross shape -->
-  <div style="position:absolute; inset:0; background: rgba(2,2,2,0.13); pointer-events:none; z-index:2;"></div>
-  <!-- Fade bottom -->
-  <div style="position:absolute; bottom:0; left:0; right:0; height:40%; background: linear-gradient(to bottom, transparent, #020202); pointer-events:none; z-index:2;"></div>
-</div>
-
-<!-- ── Main Wrapper ── -->
-<div class="wrapper">
-  <div class="bg-grid"></div>
-
-  <!-- Beams -->
-  <div class="beams">
-    <div class="beam-track"><div class="beam"></div></div>
-    <div class="beam-track center"><div class="beam beam-delay-1"></div></div>
-    <div class="beam-track"><div class="beam beam-delay-2"></div></div>
-  </div>
-
-  <!-- ── Nav ── -->
-  <nav>
-    <div class="nav-inner">
-      <a class="nav-github-btn" href="https://github.com/asimov-academy/Website-Downloader" target="_blank" rel="noopener noreferrer">
-        <div class="nav-github-content">
-          <svg class="nav-github-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
-          </svg>
-          <div class="nav-github-text">
-            <span class="nav-github-text-main">Repositório oficial</span>
-            <span class="nav-github-text-sub">GitHub.com</span>
-          </div>
-        </div>
-        <svg class="nav-github-arrow" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M7 7h10v10"/></svg>
-      </a>
-    </div>
-  </nav>
-
-  <!-- ── Hero ── -->
-  <main>
-    <section class="hero">
-      <div class="hero-inner">
-
-        <!-- Tag -->
-        <div class="hero-tag animate-on-scroll animate" style="animation: animationIn 0.8s var(--ease-cinematic) 0.1s both;">
-          <span class="dot-glow"></span>
-          WebDrop
-        </div>
-
-        <!-- Title -->
-        <h1 class="hero-title animate-on-scroll animate" style="animation: animationIn 0.8s var(--ease-cinematic) 0.2s both;">
-          Baixe qualquer site<br>
-          <span class="accent">com JS renderizado.</span>
-        </h1>
-
-        <!-- Sub -->
-        <p class="hero-sub animate-on-scroll animate" style="animation: animationIn 0.8s var(--ease-cinematic) 0.3s both;">
-          Captura completa — HTML, CSS, JS, imagens e fontes.<br>
-          Renderização de conteúdo dinâmico e exportação em ZIP.
-        </p>
-
-        <!-- App Card -->
-        <div class="app-card">
-
-          <!-- Input -->
-          <div class="input-wrap">
-            <input
-              type="url"
-              id="urlInput"
-              class="url-input"
-              placeholder="https://exemplo.com"
-              required
-            >
-            <span class="input-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
-            </span>
-          </div>
-
-          <div class="repo-option-wrap">
-            <label class="repo-option">
-              <input type="checkbox" id="autoUploadCheckbox" checked>
-              <span>Enviar uma copia para o repositório <strong>referencias-html</strong></span>
-            </label>
-            <span class="repo-option-hint" id="repoOptionHint">O ZIP pode ser baixado e enviado ao GitHub no mesmo fluxo.</span>
-          </div>
-
-          <!-- Button -->
-          <button id="downloadBtn" class="dl-btn" onclick="startDownload()">
-            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="btnIcon"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            <span id="btnText">Fazer download</span>
-            <div class="spinner" id="spinner"></div>
-          </button>
-
-          <!-- Progress -->
-          <div class="progress-wrap" id="progressWrap">
-            <div class="progress-bar" id="progressBar"></div>
-          </div>
-
-          <!-- Log Terminal -->
-          <div class="log-container" id="logContainer">
-            <div class="log-header">
-              <span class="log-dot log-dot-r"></span>
-              <span class="log-dot log-dot-y"></span>
-              <span class="log-dot log-dot-g"></span>
-              <span class="log-label">stdout</span>
-            </div>
-            <div class="log-body" id="logBody"></div>
-          </div>
-
-          <!-- Success -->
-          <div class="success-box" id="successMessage">
-            <div class="success-copy">
-              <div class="success-text">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                Download concluído!
-              </div>
-              <div class="success-subtext" id="repoUploadStatus">O ZIP esta pronto para baixar.</div>
-            </div>
-            <div class="success-actions">
-              <a href="#" id="downloadLink" class="success-link">Baixar ZIP</a>
-              <button type="button" id="repoUploadBtn" class="success-link success-button" onclick="uploadCurrentZip()">Enviar ao repositório</button>
-              <a href="#" id="repoFileLink" class="success-link" target="_blank" rel="noopener noreferrer" style="display:none;">Abrir no GitHub</a>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- ── Ticker ── -->
-    <div class="ticker-section">
-      <div class="ticker-mask">
-        <div class="ticker-inner">
-          <div class="ticker-group">
-            <div class="ticker-item">
-              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
-              HTML · CSS · JS
-            </div>
-            <div class="ticker-item">
-              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-              Playwright Render
-            </div>
-            <div class="ticker-item">
-              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-              Exportação ZIP
-            </div>
-            <div class="ticker-item">
-              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-              Lazy Load Capture
-            </div>
-            <div class="ticker-item">
-              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
-              Next.js · Gatsby · Nuxt
-            </div>
-            <div class="ticker-item">
-              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-              Offline Ready
-            </div>
-          </div>
-          <!-- duplicate for infinite loop -->
-          <div class="ticker-group">
-            <div class="ticker-item">
-              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
-              HTML · CSS · JS
-            </div>
-            <div class="ticker-item">
-              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-              Playwright Render
-            </div>
-            <div class="ticker-item">
-              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-              Exportação ZIP
-            </div>
-            <div class="ticker-item">
-              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-              Lazy Load Capture
-            </div>
-            <div class="ticker-item">
-              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
-              Next.js · Gatsby · Nuxt
-            </div>
-            <div class="ticker-item">
-              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-              Offline Ready
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ── Features ── -->
-    <div class="features-section">
-      <div class="spotlight-card feature-card animate-on-scroll" style="animation: animationIn 0.8s var(--ease-cinematic) 0.2s both;">
-        <div class="feature-header">
-          <div class="feature-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-          </div>
-          <span class="feature-num">01</span>
-        </div>
-        <div>
-          <h3 class="feature-title">Captura completa</h3>
-          <p class="feature-desc">Playwright renderiza JavaScript antes de capturar — ideal para SPAs, Next.js, Gatsby e Nuxt.</p>
-        </div>
-      </div>
-      <div class="spotlight-card feature-card animate-on-scroll" style="animation: animationIn 0.8s var(--ease-cinematic) 0.35s both;">
-        <div class="feature-header">
-          <div class="feature-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-          </div>
-          <span class="feature-num">02</span>
-        </div>
-        <div>
-          <h3 class="feature-title">Logs em tempo real</h3>
-          <p class="feature-desc">Server-Sent Events via Flask transmitem cada etapa do processo de download ao vivo.</p>
-        </div>
-      </div>
-      <div class="spotlight-card feature-card animate-on-scroll" style="animation: animationIn 0.8s var(--ease-cinematic) 0.5s both;">
-        <div class="feature-header">
-          <div class="feature-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          </div>
-          <span class="feature-num">03</span>
-        </div>
-        <div>
-          <h3 class="feature-title">Exporta em ZIP</h3>
-          <p class="feature-desc">Todos os assets empacotados com URLs reescritas para funcionar offline sem dependências externas.</p>
-        </div>
-      </div>
-    </div>
-
-  </main>
-
-  <!-- ── Footer ── -->
-  <footer>
-    <div class="footer-brand">
-      <span class="dot-glow"></span>
-      WebDrop
-    </div>
-    <span class="footer-copy">Apoie o projeto original 💜</span>
-  </footer>
-
-</div><!-- /wrapper -->
-
-<!-- ── App Logic (preserved from original) ── -->
+<!-- App Logic -->
 <script>
   const repoUploadConfigured = {{ 'true' if repo_upload_enabled else 'false' }};
   const repoUploadRepo = {{ repo_upload_repo|tojson }};
+  let currentMode = 'single';
   let currentSessionId = null;
   let currentSessionResult = null;
   let eventSource = null;
   let progressInterval = null;
   let fakeProgress = 0;
 
+  function setMode(mode) {
+    currentMode = mode;
+
+    const isBatch = mode === 'batch';
+    document.getElementById('singleModeBtn').classList.toggle('active', !isBatch);
+    document.getElementById('batchModeBtn').classList.toggle('active', isBatch);
+    document.getElementById('singleInputWrap').style.display = isBatch ? 'none' : 'block';
+    document.getElementById('batchInputWrap').classList.toggle('active', isBatch);
+    document.getElementById('btnText').textContent = isBatch ? 'Processar lote' : 'Fazer download';
+  }
+
+  function parseBatchUrls() {
+    return document.getElementById('batchUrlsInput').value
+      .split(/\r?\n/)
+      .map((value) => value.trim())
+      .filter(Boolean);
+  }
+
   function startDownload() {
-    const url = document.getElementById('urlInput').value.trim();
+    const isBatch = currentMode === 'batch';
     const uploadToRepo = repoUploadConfigured && document.getElementById('autoUploadCheckbox').checked;
-    if (!url) {
-      shakeinput();
+    const payload = isBatch
+      ? { urls: parseBatchUrls(), upload_to_repo: uploadToRepo }
+      : { url: document.getElementById('urlInput').value.trim(), upload_to_repo: uploadToRepo };
+    const endpoint = isBatch ? '/start-batch-download' : '/start-download';
+
+    if (isBatch && payload.urls.length === 0) {
+      shakeInput(document.getElementById('batchUrlsInput'));
       return;
     }
+
+    if (!isBatch && !payload.url) {
+      shakeInput(document.getElementById('urlInput'));
+      return;
+    }
+
     setLoading(true);
     clearLogs();
     hideSuccess();
+    hideBatchResults();
     currentSessionResult = null;
+    currentSessionId = null;
 
-    fetch('/start-download', {
+    fetch(endpoint, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ url, upload_to_repo: uploadToRepo })
+      body: JSON.stringify(payload)
     })
-    .then(r => r.json())
-    .then(data => {
-      if (data.error) { addLog('Erro: ' + data.error, 'error'); setLoading(false); return; }
-      currentSessionId = data.session_id;
-      connectSSE(currentSessionId);
-    })
-    .catch(err => { addLog('Erro de conexão: ' + err.message, 'error'); setLoading(false); });
+      .then(async (response) => {
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data.error || 'Falha ao iniciar o processamento');
+        }
+        return data;
+      })
+      .then((data) => {
+        currentSessionId = data.session_id;
+        connectSSE(currentSessionId);
+      })
+      .catch((err) => {
+        addLog('Erro de conexao: ' + err.message, 'error');
+        setLoading(false);
+      });
   }
 
   function connectSSE(sessionId) {
-    eventSource = new EventSource('/stream/' + sessionId);
-    eventSource.onmessage = e => addLog(e.data);
-    eventSource.addEventListener('done', e => {
+    if (eventSource) {
       eventSource.close();
+    }
+
+    eventSource = new EventSource('/stream/' + sessionId);
+    eventSource.onmessage = (e) => addLog(e.data);
+    eventSource.addEventListener('done', (e) => {
+      eventSource.close();
+      eventSource = null;
       clearInterval(progressInterval);
+
       if (e.data === 'complete') {
         setProgress(100);
         setTimeout(() => {
-          triggerDownload(sessionId);
+          if (currentMode === 'single') {
+            triggerDownload(sessionId);
+          }
           loadSessionResult(sessionId);
         }, 300);
       } else {
-        addLog('Download falhou.', 'error');
+        addLog('Processamento falhou.', 'error');
+        loadSessionResult(sessionId);
       }
+
       setTimeout(resetUI, 1200);
     });
-    eventSource.onerror = () => { eventSource.close(); setLoading(false); clearInterval(progressInterval); };
+
+    eventSource.onerror = () => {
+      if (eventSource) {
+        eventSource.close();
+        eventSource = null;
+      }
+      clearInterval(progressInterval);
+      setLoading(false);
+    };
   }
 
   function loadSessionResult(sessionId) {
     fetch('/session-result/' + sessionId)
-      .then(r => r.json())
-      .then(result => {
-        currentSessionResult = result;
-        showSuccess(sessionId, result);
+      .then(async (response) => {
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data.error || 'Falha ao carregar resultado');
+        }
+        return data;
       })
-      .catch(() => showSuccess(sessionId));
+      .then((result) => {
+        currentSessionResult = result;
+        if (result.mode === 'batch') {
+          hideSuccess();
+          showBatchResults(result);
+        } else {
+          hideBatchResults();
+          showSuccess(sessionId, result);
+        }
+      })
+      .catch((err) => addLog('Erro ao carregar resultado: ' + err.message, 'error'));
   }
 
   function triggerDownload(sessionId) {
     const downloadUrl = '/download-file/' + sessionId;
-    const a = document.createElement('a');
-    a.href = downloadUrl;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
+    const anchor = document.createElement('a');
+    anchor.href = downloadUrl;
+    document.body.appendChild(anchor);
+    anchor.click();
+    anchor.remove();
     document.getElementById('downloadLink').href = downloadUrl;
   }
 
@@ -1122,10 +1097,99 @@ footer {
   function hideSuccess() {
     document.getElementById('successMessage').classList.remove('active');
     document.getElementById('repoUploadStatus').textContent = 'O ZIP esta pronto para baixar.';
-    document.getElementById('repoUploadBtn').textContent = 'Enviar ao repositório';
+    document.getElementById('repoUploadBtn').textContent = 'Enviar ao repositorio';
     document.getElementById('repoUploadBtn').disabled = false;
     document.getElementById('repoFileLink').style.display = 'none';
     document.getElementById('repoFileLink').href = '#';
+  }
+
+  function showBatchResults(result) {
+    const summary = result.summary || { total: 0, completed: 0, failed: 0 };
+    const summaryEl = document.getElementById('batchSummary');
+    const listEl = document.getElementById('batchList');
+
+    summaryEl.innerHTML = `
+      <div class="batch-summary-title">Lote concluido</div>
+      <div class="batch-summary-meta">
+        ${summary.total} link(s) processado(s), ${summary.completed} concluido(s), ${summary.failed} com erro.
+        ${result.upload_requested ? 'O envio ao GitHub foi tentado para cada item concluido.' : 'Baixe os ZIPs individualmente abaixo.'}
+      </div>
+    `;
+
+    listEl.innerHTML = '';
+    (result.items || []).forEach((item) => {
+      listEl.insertAdjacentHTML('beforeend', renderBatchItem(item));
+    });
+
+    document.getElementById('batchResults').classList.add('active');
+  }
+
+  function hideBatchResults() {
+    document.getElementById('batchResults').classList.remove('active');
+    document.getElementById('batchSummary').innerHTML = '';
+    document.getElementById('batchList').innerHTML = '';
+  }
+
+  function renderBatchItem(item) {
+    const statusMap = {
+      pending: 'Pendente',
+      processing: 'Processando',
+      complete: 'Concluido',
+      error: 'Erro'
+    };
+
+    const actions = [];
+    if (item.download_url) {
+      actions.push(`<a class="success-link" href="${item.download_url}">Baixar ZIP</a>`);
+    }
+
+    const uploadMeta = buildBatchUploadMeta(item);
+    if (uploadMeta.link) {
+      actions.push(`<a class="success-link" href="${uploadMeta.link}" target="_blank" rel="noopener noreferrer">Abrir no GitHub</a>`);
+    }
+
+    return `
+      <div class="batch-item">
+        <div class="batch-item-top">
+          <div>
+            <div class="batch-item-url">${escapeHtml(item.source_url || '-')}</div>
+            <div class="batch-item-meta">
+              ${item.filename ? 'Arquivo: ' + escapeHtml(item.filename) + '<br>' : ''}
+              ${uploadMeta.text}
+              ${item.error ? '<br>Erro: ' + escapeHtml(item.error) : ''}
+            </div>
+          </div>
+          <span class="batch-status ${item.status}">${statusMap[item.status] || item.status}</span>
+        </div>
+        ${actions.length ? `<div class="batch-actions">${actions.join('')}</div>` : ''}
+      </div>
+    `;
+  }
+
+  function buildBatchUploadMeta(item) {
+    const uploadState = item.repo_upload || { status: 'idle' };
+
+    if (!repoUploadConfigured) {
+      return { text: 'Upload GitHub indisponivel neste servidor.', link: null };
+    }
+
+    if (uploadState.status === 'uploaded') {
+      return { text: 'Upload para ' + repoUploadRepo + ' concluido.', link: uploadState.url || null };
+    }
+
+    if (uploadState.status === 'error') {
+      return { text: 'Upload falhou: ' + escapeHtml(uploadState.error || 'erro desconhecido'), link: null };
+    }
+
+    if (uploadState.status === 'unavailable') {
+      return { text: 'Upload automatico indisponivel.', link: null };
+    }
+
+    if (item.status === 'complete') {
+      return { text: 'ZIP pronto para download.', link: null };
+    }
+
+    return { text: 'Aguardando processamento.', link: null };
   }
 
   function updateRepoUploadState(result = null) {
@@ -1157,7 +1221,7 @@ footer {
     }
 
     if (uploadState.status === 'error') {
-      statusEl.textContent = 'O ZIP foi baixado, mas o envio ao repositório falhou. Voce pode tentar novamente.';
+      statusEl.textContent = 'O ZIP foi baixado, mas o envio ao repositorio falhou. Voce pode tentar novamente.';
       uploadBtn.textContent = 'Tentar novamente';
       uploadBtn.disabled = false;
       return;
@@ -1176,7 +1240,7 @@ footer {
       statusEl.textContent = 'O ZIP esta pronto. Se quiser, envie uma copia para ' + repoUploadRepo + '.';
     }
 
-    uploadBtn.textContent = 'Enviar ao repositório';
+    uploadBtn.textContent = 'Enviar ao repositorio';
     uploadBtn.disabled = false;
   }
 
@@ -1190,15 +1254,15 @@ footer {
     uploadBtn.textContent = 'Enviando...';
 
     fetch('/upload-to-repo/' + currentSessionId, { method: 'POST' })
-      .then(async r => {
-        const data = await r.json();
-        if (!r.ok) {
+      .then(async (response) => {
+        const data = await response.json();
+        if (!response.ok) {
           throw new Error(data.error || 'Falha ao enviar para o GitHub');
         }
         currentSessionResult = { ...(currentSessionResult || {}), repo_upload: data };
         updateRepoUploadState(currentSessionResult);
       })
-      .catch(err => {
+      .catch((err) => {
         currentSessionResult = {
           ...(currentSessionResult || {}),
           repo_upload: { status: 'error', error: err.message }
@@ -1208,14 +1272,12 @@ footer {
   }
 
   function setProgress(val) {
-    const bar = document.getElementById('progressBar');
-    bar.style.width = val + '%';
+    document.getElementById('progressBar').style.width = val + '%';
   }
 
   function startFakeProgress() {
     fakeProgress = 0;
-    const wrap = document.getElementById('progressWrap');
-    wrap.classList.add('active');
+    document.getElementById('progressWrap').classList.add('active');
     progressInterval = setInterval(() => {
       if (fakeProgress < 85) {
         fakeProgress += Math.random() * 3;
@@ -1229,16 +1291,22 @@ footer {
     const text = document.getElementById('btnText');
     const spinner = document.getElementById('spinner');
     const icon = document.getElementById('btnIcon');
-    const input = document.getElementById('urlInput');
+    const singleInput = document.getElementById('urlInput');
+    const batchInput = document.getElementById('batchUrlsInput');
     const autoUploadCheckbox = document.getElementById('autoUploadCheckbox');
     const logContainer = document.getElementById('logContainer');
+    const singleModeBtn = document.getElementById('singleModeBtn');
+    const batchModeBtn = document.getElementById('batchModeBtn');
 
     btn.disabled = loading;
-    input.disabled = loading;
+    singleInput.disabled = loading;
+    batchInput.disabled = loading;
+    singleModeBtn.disabled = loading;
+    batchModeBtn.disabled = loading;
     autoUploadCheckbox.disabled = loading || !repoUploadConfigured;
     spinner.style.display = loading ? 'block' : 'none';
     icon.style.display = loading ? 'none' : 'block';
-    text.textContent = loading ? 'Processando...' : 'Fazer download';
+    text.textContent = loading ? 'Processando...' : (currentMode === 'batch' ? 'Processar lote' : 'Fazer download');
 
     if (loading) {
       btn.classList.add('loading');
@@ -1260,11 +1328,11 @@ footer {
     const entry = document.createElement('div');
     entry.className = 'log-entry' + (type ? ' ' + type : '');
 
-    // Detect success/error automatically
     if (!type) {
-      if (message.includes('✅') || message.includes('concluído') || message.includes('complete') || message.includes('ZIP')) {
+      const normalized = message.toLowerCase();
+      if (normalized.includes('concluido') || normalized.includes('complete') || normalized.includes('zip')) {
         entry.classList.add('success');
-      } else if (message.includes('❌') || message.includes('erro') || message.includes('falhou')) {
+      } else if (normalized.includes('erro') || normalized.includes('falhou')) {
         entry.classList.add('error');
       }
     }
@@ -1278,17 +1346,24 @@ footer {
     document.getElementById('logBody').innerHTML = '';
   }
 
-  function shakeinput() {
-    const input = document.getElementById('urlInput');
-    input.style.borderColor = 'rgba(255,80,80,0.4)';
-    input.style.animation = 'shake 0.3s ease';
+  function shakeInput(element) {
+    element.style.borderColor = 'rgba(255,80,80,0.4)';
+    element.style.animation = 'shake 0.3s ease';
     setTimeout(() => {
-      input.style.borderColor = '';
-      input.style.animation = '';
+      element.style.borderColor = '';
+      element.style.animation = '';
     }, 400);
   }
 
-  // Enter key
+  function escapeHtml(value) {
+    return String(value)
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&#39;');
+  }
+
   function syncRepoUploadPreference() {
     const autoUploadCheckbox = document.getElementById('autoUploadCheckbox');
     const repoOptionHint = document.getElementById('repoOptionHint');
@@ -1303,15 +1378,18 @@ footer {
     repoOptionHint.textContent = 'Marcado por padrao: ao concluir, o ZIP baixa no navegador e uma copia pode ser enviada para ' + repoUploadRepo + '.';
   }
 
-  document.getElementById('urlInput').addEventListener('keypress', e => {
-    if (e.key === 'Enter' && !document.getElementById('downloadBtn').disabled) startDownload();
+  document.getElementById('urlInput').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter' && !document.getElementById('downloadBtn').disabled) {
+      startDownload();
+    }
   });
 
-  // ── Aura JS (spotlight + scroll reveal) ──
   document.addEventListener('DOMContentLoaded', () => {
     syncRepoUploadPreference();
+    setMode('single');
+
     const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
+      entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add('animate');
           observer.unobserve(entry.target);
@@ -1319,11 +1397,11 @@ footer {
       });
     }, { threshold: 0.1, rootMargin: '0px 0px -5% 0px' });
 
-    document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+    document.querySelectorAll('.animate-on-scroll').forEach((el) => observer.observe(el));
 
     const cards = document.querySelectorAll('.spotlight-card');
-    document.addEventListener('mousemove', e => {
-      cards.forEach(card => {
+    document.addEventListener('mousemove', (e) => {
+      cards.forEach((card) => {
         const rect = card.getBoundingClientRect();
         card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
         card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);

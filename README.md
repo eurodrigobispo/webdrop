@@ -37,7 +37,7 @@ Sem `GITHUB_UPLOAD_TOKEN`, o download local continua funcionando normalmente e a
 
 Requisitos:
 
-- Python 3.11+
+- Python 3.11 a 3.14
 - uv
 
 Instalacao:
@@ -49,3 +49,15 @@ uv run python app.py
 ```
 
 Acesse `http://localhost:5001`.
+
+Execucao rapida no Windows:
+
+- Dois cliques em `run-local.bat`
+- Ou rode `.\run-local.ps1` no PowerShell
+
+No primeiro uso o script cria `.venv`, instala as dependencias e instala o Chromium do Playwright. Depois disso ele apenas sobe o servidor local.
+
+Envio automatico local para o GitHub:
+
+- Preencha `.env.local` com base em `.env.local.example`
+- O `run-local.ps1` carrega esse arquivo automaticamente antes de subir o servidor
