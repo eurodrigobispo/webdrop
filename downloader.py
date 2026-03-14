@@ -452,7 +452,9 @@ class WebsiteDownloader:
         return None, False
 
     def process(self):
-        with sync_playwright() as p:
+        pw = sync_playwright().start()
+        try:
+            p = pw
             self.log("🚀 Iniciando navegador...")
             # Launch with reduced memory footprint
             browser = p.chromium.launch(
@@ -554,9 +556,11 @@ class WebsiteDownloader:
                 html_content = page.content()
             
             self.log(f"📦 Capturados {len(self.network_resources)} recursos de rede")
-            
+
             browser.close()
-        
+        finally:
+            pw.stop()
+
         # Process HTML
         self.log("🔧 Processando HTML e assets...")
         soup = BeautifulSoup(html_content, 'html.parser')
