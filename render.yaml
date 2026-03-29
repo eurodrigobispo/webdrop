@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: website-downloader
+    name: webdrop
     env: docker
     dockerfilePath: ./Dockerfile
     envVars:

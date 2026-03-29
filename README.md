@@ -27,7 +27,7 @@ O resultado e exportado em um arquivo ZIP com URLs reescritas para funcionar off
 ## Arquitetura
 
 ```
-web-downloader/
+webdrop/
 ├── app.py              # Servidor Flask — rotas, SSE, sessoes, upload GitHub
 ├── downloader.py       # Motor de download — Playwright, parsing, rewrite de URLs
 ├── templates/
@@ -85,8 +85,8 @@ SSE envia evento "done" ──► Frontend dispara download automatico
 
 ```bash
 # Clonar
-git clone https://github.com/eurodrigobispo/web-downloader.git
-cd web-downloader
+git clone https://github.com/eurodrigobispo/webdrop.git
+cd webdrop
 
 # Instalar dependencias
 uv sync

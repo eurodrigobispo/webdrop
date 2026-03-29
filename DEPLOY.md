@@ -12,7 +12,7 @@ git add .
 git commit -m "Preparar projeto para deploy"
 
 # Criar repositório no GitHub e fazer push
-git remote add origin https://github.com/SEU_USUARIO/website-downloader.git
+git remote add origin https://github.com/SEU_USUARIO/webdrop.git
 git branch -M main
 git push -u origin main
 ```
@@ -24,13 +24,13 @@ git push -u origin main
 2. **Novo Web Service**:
    - Clique em "New +" → "Web Service"
    - Conecte seu repositório GitHub
-   - Selecione o repositório `website-downloader`
+   - Selecione o repositório `webdrop`
 
 3. **Configurações**:
    - O Render detectará automaticamente o `Dockerfile`
    - Se não detectar, configure manualmente:
      ```
-     Name: website-downloader (ou qualquer nome)
+     Name: webdrop (ou qualquer nome)
      Environment: Docker
      ```
    - Não precisa configurar Build/Start Command (o Dockerfile já tem isso)
@@ -49,7 +49,7 @@ git push -u origin main
    ```
    Type: CNAME
    Name: sd
-   Value: website-downloader.onrender.com (ou similar)
+   Value: webdrop.onrender.com (ou similar)
    ```
 
 4. **Configure no seu provedor de domínio** (ex: GoDaddy, Namecheap, Cloudflare):

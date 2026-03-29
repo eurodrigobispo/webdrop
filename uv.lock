@@ -2,8 +2,8 @@ version = 1
 requires-python = ">=3.12"
 
 [[package]]
-name = "10-website-downloader"
-version = "0.1.0"
+name = "webdrop"
+version = "1.0.0"
 source = { virtual = "." }
 dependencies = [
     { name = "beautifulsoup4" },

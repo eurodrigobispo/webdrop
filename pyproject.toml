@@ -1,5 +1,5 @@
 [project]
-name = "web-downloader"
+name = "webdrop"
 version = "1.0.0"
 description = "WebDrop — Baixe replicas completas de sites com JS renderizado via Playwright"
 readme = "README.md"

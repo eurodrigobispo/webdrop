@@ -24,7 +24,7 @@
 
 1. No dashboard, clique em **"New Project"**
 2. Selecione **"Deploy from GitHub repo"**
-3. Procure e selecione: **`asimov-academy/Website-Downloader`**
+3. Procure e selecione: **`asimov-academy/webdrop`**
 4. Railway vai detectar automaticamente o Dockerfile
 
 ---
@@ -64,7 +64,7 @@ Você deve ver:
 1. No card do serviço, clique em **"Settings"**
 2. Vá em **"Networking"**
 3. Clique em **"Generate Domain"**
-4. Railway vai gerar uma URL como: `website-downloader-production.up.railway.app`
+4. Railway vai gerar uma URL como: `webdrop-production.up.railway.app`
 
 ---
 
@@ -79,7 +79,7 @@ Você deve ver:
    ```
    Type: CNAME
    Name: sd
-   Value: website-downloader-production.up.railway.app
+   Value: webdrop-production.up.railway.app
    ```
 
 #### B) No seu provedor de DNS:
@@ -90,7 +90,7 @@ Você deve ver:
    ```
    Type: CNAME
    Name: sd
-   Value: website-downloader-production.up.railway.app
+   Value: webdrop-production.up.railway.app
    TTL: 3600 (ou Auto)
    ```
 4. Salve as mudanças
