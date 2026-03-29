@@ -96,25 +96,6 @@ body {
 }
 .animate-scroll { animation: scroll 40s linear infinite; }
 
-@keyframes beam-drop {
-  0%   { transform: translateY(0); opacity: 0; }
-  15%  { opacity: 1; }
-  85%  { opacity: 1; }
-  100% { transform: translateY(calc(-100vh - 200px)); opacity: 0; }
-}
-.beam {
-  position: absolute;
-  bottom: 0;
-  top: auto;
-  width: 1px;
-  height: 200px;
-  background: linear-gradient(to top, transparent, rgba(220,220,220,0.55), transparent);
-  animation: beam-drop 8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-  box-shadow: 0 0 6px rgba(255,255,255,0.15);
-}
-.beam-delay-1 { animation-delay: 2.3s; }
-.beam-delay-2 { animation-delay: 4.7s; }
-
 @keyframes spin { to { transform: rotate(360deg); } }
 
 @keyframes shimmer {
@@ -144,60 +125,17 @@ body {
 
 /* ── Layout ── */
 .wrapper {
-  border-left: 1px solid var(--border);
-  border-right: 1px solid var(--border);
   min-height: 100vh;
   width: 100%;
-  max-width: 1440px;
-  margin: 0 auto;
   position: relative;
-}
-
-/* ── Background Grid ── */
-.bg-grid {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-  background-size: 12rem 24rem;
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* ── Beams ── */
-.beams {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  justify-content: space-between;
-  pointer-events: none;
-  z-index: 0;
-  padding: 0 1.5rem;
-}
-@media (min-width: 768px) { .beams { padding: 0 3rem; } }
-@media (min-width: 1024px) { .beams { padding: 0 6rem; } }
-
-.beam-track {
-  position: relative;
-  width: 1px;
-  height: 100%;
-  background: rgba(255,255,255,0.015);
-  overflow: hidden;
-}
-.beam-track.center { display: none; }
-@media (min-width: 768px) {
-  .beam-track.center {
-    display: block;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-  }
 }
 
 /* ── Nav ── */
 nav {
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
   z-index: 50;
   border-bottom: 1px solid var(--border);
   backdrop-filter: blur(8px);
@@ -212,6 +150,8 @@ nav {
 }
 @media (min-width: 768px) { .nav-inner { padding: 0 3rem; } }
 @media (min-width: 1024px) { .nav-inner { padding: 0 6rem; } }
+@media (min-width: 1600px) { .nav-inner { padding: 0 10rem; } }
+@media (min-width: 2200px) { .nav-inner { padding: 0 16rem; } }
 
 .nav-github-btn {
   display: inline-flex;
@@ -288,10 +228,12 @@ nav {
 }
 @media (min-width: 768px) { .hero { padding: 6rem 3rem; } }
 @media (min-width: 1024px) { .hero { padding: 8rem 6rem; } }
+@media (min-width: 1600px) { .hero { padding: 8rem 10rem; } }
+@media (min-width: 2200px) { .hero { padding: 8rem 16rem; } }
 
 .hero-inner {
   width: 100%;
-  max-width: 640px;
+  max-width: 720px;
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
@@ -332,6 +274,7 @@ nav {
   animation: animationIn 0.8s var(--ease-cinematic) 0.2s both;
 }
 @media (min-width: 768px) { .hero-title { font-size: 3.5rem; } }
+@media (min-width: 1600px) { .hero-title { font-size: 4rem; } }
 .hero-title .accent { color: #D4D4D4; font-weight: 500; }
 
 /* Subtitle */
@@ -586,6 +529,8 @@ nav {
   background: var(--bg-2);
   padding: 1.25rem 0;
   overflow: hidden;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
 }
 .ticker-mask {
   -webkit-mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
@@ -624,6 +569,8 @@ nav {
   gap: 1px;
   background: var(--border);
   border-bottom: 1px solid var(--border);
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
 }
 @media (min-width: 768px) { .features-section { grid-template-columns: repeat(3, 1fr); } }
 
@@ -635,6 +582,8 @@ nav {
   gap: 3rem;
   cursor: default;
 }
+@media (min-width: 1600px) { .feature-card { padding: 3rem 10rem 3rem 3.5rem; } }
+@media (min-width: 2200px) { .feature-card { padding: 3.5rem 14rem 3.5rem 5rem; } }
 .feature-num {
   font-family: var(--mono);
   font-size: 0.65rem;
@@ -685,9 +634,13 @@ footer {
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 1rem;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
 }
 @media (min-width: 768px) { footer { padding: 2rem 3rem; } }
 @media (min-width: 1024px) { footer { padding: 2rem 6rem; } }
+@media (min-width: 1600px) { footer { padding: 2rem 10rem; } }
+@media (min-width: 2200px) { footer { padding: 2rem 16rem; } }
 
 .footer-brand {
   display: flex;
@@ -710,33 +663,21 @@ footer {
 
 <body>
 
-<!-- ── UnicornStudio Background ── -->
-<div style="position:fixed; inset:0; z-index:-10; width:100%; height:100%;">
-  <div style="position:absolute; inset:0; z-index:-1;" data-us-project="guA2nIvok3TuYtPyn8zX"></div>
-  <script type="text/javascript">
-    !function(){if(!window.UnicornStudio){window.UnicornStudio={isInitialized:!1};var i=document.createElement("script");i.src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v1.4.29/dist/unicornStudio.umd.js",i.onload=function(){window.UnicornStudio.isInitialized||(UnicornStudio.init(),window.UnicornStudio.isInitialized=!0)},(document.head||document.body).appendChild(i)}}();
-  </script>
-  <!-- Neutral dark overlay to desaturate the UnicornStudio beam -->
-  <div style="position:absolute; inset:0; background: rgba(2,2,2,0.45); pointer-events:none; mix-blend-mode: color; z-index:1;"></div>
-  <!-- Additional desaturation layer -->
-  <div style="position:absolute; inset:0; backdrop-filter: saturate(0.15); pointer-events:none; z-index:1;"></div>
-  <!-- Dark overlay to dim animation cross shape -->
-  <div style="position:absolute; inset:0; background: rgba(2,2,2,0.13); pointer-events:none; z-index:2;"></div>
-  <!-- Fade bottom -->
-  <div style="position:absolute; bottom:0; left:0; right:0; height:40%; background: linear-gradient(to bottom, transparent, #020202); pointer-events:none; z-index:2;"></div>
+<!-- ── UnicornStudio Background (Nexus Cloud) ── -->
+<div style="position:fixed; top:0; left:0; width:100%; height:100vh; z-index:-10; filter: saturate(0); mask-image: linear-gradient(to bottom, transparent, black 0%, black 80%, transparent); -webkit-mask-image: linear-gradient(to bottom, transparent, black 0%, black 80%, transparent);" data-alpha-mask="80">
+  <div style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:-1;">
+    <div style="position:absolute; width:100%; height:100%; left:0; top:0; z-index:-1;" data-us-project="ILgOO23w4wEyPQOKyLO4"></div>
+    <script type="text/javascript">
+      !function(){if(!window.UnicornStudio){window.UnicornStudio={isInitialized:!1};var i=document.createElement("script");i.src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v1.4.29/dist/unicornStudio.umd.js",i.onload=function(){window.UnicornStudio.isInitialized||(UnicornStudio.init(),window.UnicornStudio.isInitialized=!0)},(document.head||document.body).appendChild(i)}}();
+    </script>
+  </div>
 </div>
+<!-- Subtle Background Glows (from Nexus) -->
+<div style="position:fixed; top:0; left:50%; transform:translateX(-50%); width:100%; height:800px; background:linear-gradient(to bottom, rgba(24,24,27,0.4), rgba(9,9,11,0.2), transparent); z-index:-10; pointer-events:none;"></div>
+<div style="position:fixed; top:-200px; right:-100px; width:600px; height:600px; background:rgba(39,39,42,0.2); border-radius:50%; filter:blur(120px); z-index:-10; pointer-events:none;"></div>
 
 <!-- ── Main Wrapper ── -->
 <div class="wrapper">
-  <div class="bg-grid"></div>
-
-  <!-- Beams -->
-  <div class="beams">
-    <div class="beam-track"><div class="beam"></div></div>
-    <div class="beam-track center"><div class="beam beam-delay-1"></div></div>
-    <div class="beam-track"><div class="beam beam-delay-2"></div></div>
-  </div>
-
   <!-- ── Nav ── -->
   <nav>
     <div class="nav-inner">
@@ -824,7 +765,7 @@ footer {
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
               Download concluído!
             </div>
-            <a href="#" id="downloadLink" class="success-link">↓ baixar ZIP</a>
+            <a href="#" id="downloadLink" class="success-link" style="display:inline-flex; align-items:center; gap:0.35rem;"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> baixar ZIP</a>
           </div>
 
         </div>
@@ -940,7 +881,7 @@ footer {
       <span class="dot-glow"></span>
       WebDrop
     </div>
-    <span class="footer-copy">Apoie o projeto original 💜</span>
+    <span class="footer-copy" style="display:flex; align-items:center; gap:0.4rem;">Apoie o projeto original <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="rgba(200,200,200,0.4)" stroke="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>
   </footer>
 
 </div><!-- /wrapper -->
@@ -1066,6 +1007,9 @@ footer {
     const entry = document.createElement('div');
     entry.className = 'log-entry' + (type ? ' ' + type : '');
 
+    // Strip emojis from message
+    const cleanMsg = message.replace(/[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{1F1E0}-\u{1F1FF}\u{2600}-\u{27BF}\u{2702}-\u{27B0}\u{FE00}-\u{FE0F}\u{1F900}-\u{1F9FF}\u{200D}\u{20E3}\u{E0020}-\u{E007F}✅❌⚠️✓✕⬇️📦🔍🌐📄💾⏳🚀🔗📁🗂️💜]/gu, '').trim();
+
     // Detect success/error automatically
     if (!type) {
       if (message.includes('✅') || message.includes('concluído') || message.includes('complete') || message.includes('ZIP')) {
@@ -1075,7 +1019,7 @@ footer {
       }
     }
 
-    entry.textContent = message;
+    entry.textContent = cleanMsg;
     body.appendChild(entry);
     body.scrollTop = body.scrollHeight;
   }
