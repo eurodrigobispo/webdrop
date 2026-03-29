@@ -1,7 +1,7 @@
 [project]
-name = "10-website-downloader"
-version = "0.1.0"
-description = "Add your description here"
+name = "web-downloader"
+version = "1.0.0"
+description = "WebDrop — Baixe replicas completas de sites com JS renderizado via Playwright"
 readme = "README.md"
 requires-python = ">=3.11,<3.15"
 dependencies = [
